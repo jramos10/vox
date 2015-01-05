@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="/Users/jpramos/Documents/My_Documents/Geekin/Vox/Libraries/tess-two/tess-two/src/main/assets" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/jpramos/Documents/My_Documents/Geekin/Vox/Libraries/tess-two/tess-two/src/debug/assets" />
+    </dataSet>
+
+</merger>
