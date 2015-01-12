@@ -17,17 +17,18 @@ import android.widget.TextView;
 import java.io.File;
 
 public class PhotoCaptureActivity extends Activity {
+
     protected Button _button;
     protected ImageView _image;
     protected TextView _field;
-    protected String _path;
+    protected String _pathForSavedImage;
     protected boolean _taken;
 
     protected static final String PHOTO_TAKEN	= "photo_taken";
+    private String LOG_TAG = "Vox.PhotoCaptureActivity";
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
@@ -35,39 +36,35 @@ public class PhotoCaptureActivity extends Activity {
         _image = ( ImageView ) findViewById( R.id.image );
         _field = ( TextView ) findViewById( R.id.field );
         _button = ( Button ) findViewById( R.id.button );
-        _button.setOnClickListener( new ButtonClickHandler() );
+        _button.setOnClickListener(new ButtonClickHandler());
 
-        _path = Environment.getExternalStorageDirectory() + "/images/make_machine_example.jpg";
+        _pathForSavedImage = Environment.getExternalStorageDirectory() + "/images/vox_image.jpg";
     }
 
-    public class ButtonClickHandler implements View.OnClickListener
-    {
+    public class ButtonClickHandler implements View.OnClickListener {
         public void onClick( View view ){
-            Log.i("MakeMachine", "ButtonClickHandler.onClick()");
+            Log.i(LOG_TAG, "ButtonClickHandler.onClick()");
             startCameraActivity();
         }
     }
 
-    protected void startCameraActivity()
-    {
-        Log.i("MakeMachine", "startCameraActivity()" );
-        File file = new File( _path );
-        Uri outputFileUri = Uri.fromFile( file );
+    protected void startCameraActivity() {
+        Log.i(LOG_TAG, "startCameraActivity()");
+        File file = new File(_pathForSavedImage);
+        Uri outputFileUri = Uri.fromFile(file);
 
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
-        intent.putExtra( MediaStore.EXTRA_OUTPUT, outputFileUri );
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
-        startActivityForResult( intent, 0 );
+        startActivityForResult(intent, 0);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        Log.i( "MakeMachine", "resultCode: " + resultCode );
-        switch( resultCode )
-        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(LOG_TAG, "resultCode: " + resultCode);
+        switch(resultCode) {
             case 0:
-                Log.i( "MakeMachine", "User cancelled" );
+                Log.i(LOG_TAG, "User cancelled");
                 break;
 
             case -1:
@@ -76,32 +73,31 @@ public class PhotoCaptureActivity extends Activity {
         }
     }
 
-    protected void onPhotoTaken()
-    {
-        Log.i( "MakeMachine", "onPhotoTaken" );
+    protected void onPhotoTaken() {
+        Log.i(LOG_TAG, "onPhotoTaken");
 
         _taken = true;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
 
-        Bitmap bitmap = BitmapFactory.decodeFile( _path, options );
+        Bitmap bitmap = BitmapFactory.decodeFile(_pathForSavedImage, options );
 
         _image.setImageBitmap(bitmap);
 
-        _field.setVisibility( View.GONE );
+        _field.setVisibility(View.GONE);
     }
 
     @Override
-    protected void onRestoreInstanceState( Bundle savedInstanceState){
-        Log.i( "MakeMachine", "onRestoreInstanceState()");
-        if( savedInstanceState.getBoolean( PhotoCaptureActivity.PHOTO_TAKEN ) ) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.i(LOG_TAG, "onRestoreInstanceState()");
+        if( savedInstanceState.getBoolean(PhotoCaptureActivity.PHOTO_TAKEN)) {
             onPhotoTaken();
         }
     }
 
     @Override
-    protected void onSaveInstanceState( Bundle outState ) {
+    protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean( PhotoCaptureActivity.PHOTO_TAKEN, _taken );
     }
 }
