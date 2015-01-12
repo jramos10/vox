@@ -38,7 +38,7 @@ public class PhotoCaptureActivity extends Activity {
         _button = ( Button ) findViewById( R.id.button );
         _button.setOnClickListener(new ButtonClickHandler());
 
-        _pathForSavedImage = Environment.getExternalStorageDirectory() + "/images/vox_image.jpg";
+        _pathForSavedImage = Environment.getExternalStorageDirectory() + "/Vox/images/ocr.jpg";
     }
 
     public class ButtonClickHandler implements View.OnClickListener {
@@ -79,9 +79,9 @@ public class PhotoCaptureActivity extends Activity {
         _taken = true;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
+        options.inSampleSize = 2;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(_pathForSavedImage, options );
+        Bitmap bitmap = BitmapFactory.decodeFile(_pathForSavedImage, options);
 
         _image.setImageBitmap(bitmap);
 
