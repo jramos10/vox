@@ -26,6 +26,7 @@ public class PhotoCaptureActivity extends Activity {
 
     protected static final String PHOTO_TAKEN	= "photo_taken";
     private String LOG_TAG = "Vox.PhotoCaptureActivity";
+    private OCRActivity ocrActivity = new OCRActivity();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,8 @@ public class PhotoCaptureActivity extends Activity {
         options.inSampleSize = 2;
 
         Bitmap bitmap = BitmapFactory.decodeFile(_pathForSavedImage, options);
+
+        ocrActivity.performOCR(bitmap);
 
         _image.setImageBitmap(bitmap);
 

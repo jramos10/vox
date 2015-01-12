@@ -17,16 +17,12 @@ import java.io.IOException;
 
 public class OCRActivity extends Activity {
 
-    public static final String LOG_TAG = "OCR";
+    public static final String LOG_TAG = "Vox.OCRActivity";
     public static final String LANG = "eng";
     public static final String DATA_PATH = Environment.getExternalStorageDirectory() + "/Vox/";
     public static final String IMAGE_PATH = DATA_PATH + "images/ocr.jpg";
 
-    protected void performOCR() {
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_PATH, options);
+    protected void performOCR(Bitmap bitmap) {
 
         try {
             bitmap = rotateImage(bitmap);
