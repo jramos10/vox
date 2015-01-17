@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff080d88"
+    style="@style/AppTheme"
+    android:touchscreenBlocksFocus="true"
+    android:transitionGroup="false"
+    android:nestedScrollingEnabled="false"
+    tools:context=".PhotoCaptureActivity"
+    android:orientation="vertical">
 
-    <TextView android:id="@+id/field"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No Image"
-        android:gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"></LinearLayout>
 
     <ImageView android:id="@+id/image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"></LinearLayout>
+
+    <TextView android:id="@+id/field"
+        android:layout_width="324dp"
+        android:layout_height="wrap_content"
+        android:text="No Image"
+        android:gravity="center_horizontal"/>
+
     <Button android:id="@+id/button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Take Photo"
-        android:layout_weight="1"/>
+        android:layout_weight="0.44" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"></LinearLayout>
 </LinearLayout>
