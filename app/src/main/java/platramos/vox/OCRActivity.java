@@ -21,6 +21,10 @@ public class OCRActivity extends Activity {
     private String IMAGE_PATH;
     private Bitmap bitmap;
 
+    //Needed for assembleRelease
+    public OCRActivity() {
+    }
+
     public OCRActivity(Bitmap bitmap, String dataPath, String imagePath) {
         this.bitmap = bitmap;
         this.DATA_PATH = dataPath;

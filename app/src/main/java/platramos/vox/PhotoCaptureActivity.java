@@ -37,13 +37,15 @@ public class PhotoCaptureActivity extends Activity {
 
         for (String path : paths) {
             File dir = new File(path);
-            if (!dir.exists()) {
-                if (!dir.mkdirs()) {
-                    Log.v(LOG_TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
-                    return;
-                } else {
-                    Log.v(LOG_TAG, "Created directory " + path + " on sdcard");
+            try{
+                if(!dir.exists()) {
+                    if(dir.mkdirs()) {
+                        Log.v(LOG_TAG, "Created directory " + path + " on sdcard");
+                    }
                 }
+            }catch(Exception e){
+                Log.v(LOG_TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
+                e.printStackTrace();
             }
         }
 
