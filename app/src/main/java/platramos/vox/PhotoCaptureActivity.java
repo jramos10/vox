@@ -21,16 +21,31 @@ public class PhotoCaptureActivity extends Activity {
     protected Button _button;
     protected ImageView _image;
     protected TextView _field;
-    protected String _pathForSavedImage;
     protected boolean _taken;
 
     protected static final String PHOTO_TAKEN	= "photo_taken";
     private String LOG_TAG = "Vox.PhotoCaptureActivity";
-    private OCRActivity ocrActivity = new OCRActivity();
+    private OCRActivity ocrActivity;
+    private static final String DATA_PATH = Environment.getExternalStorageDirectory() + "/Vox/";
+    private String IMAGE_PATH = DATA_PATH + "/images/ocr.jpg";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
+
+        for (String path : paths) {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                if (!dir.mkdirs()) {
+                    Log.v(LOG_TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
+                    return;
+                } else {
+                    Log.v(LOG_TAG, "Created directory " + path + " on sdcard");
+                }
+            }
+        }
 
         setContentView(R.layout.main);
 
@@ -39,7 +54,6 @@ public class PhotoCaptureActivity extends Activity {
         _button = ( Button ) findViewById( R.id.button );
         _button.setOnClickListener(new ButtonClickHandler());
 
-        _pathForSavedImage = Environment.getExternalStorageDirectory() + "/Vox/images/ocr.jpg";
     }
 
     public class ButtonClickHandler implements View.OnClickListener {
@@ -51,7 +65,16 @@ public class PhotoCaptureActivity extends Activity {
 
     protected void startCameraActivity() {
         Log.i(LOG_TAG, "startCameraActivity()");
-        File file = new File(_pathForSavedImage);
+        File file = new File(IMAGE_PATH);
+
+        try{
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         Uri outputFileUri = Uri.fromFile(file);
 
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -82,12 +105,11 @@ public class PhotoCaptureActivity extends Activity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(_pathForSavedImage, options);
+        Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_PATH, options);
 
-        ocrActivity.performOCR(bitmap);
-
+        ocrActivity = new OCRActivity(bitmap, DATA_PATH, IMAGE_PATH);
+        ocrActivity.performOCR();
         _image.setImageBitmap(bitmap);
-
         _field.setVisibility(View.GONE);
     }
 

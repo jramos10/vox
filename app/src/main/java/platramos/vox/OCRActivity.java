@@ -2,10 +2,8 @@ package platramos.vox;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,10 +17,17 @@ public class OCRActivity extends Activity {
 
     public static final String LOG_TAG = "Vox.OCRActivity";
     public static final String LANG = "eng";
-    public static final String DATA_PATH = Environment.getExternalStorageDirectory() + "/Vox/";
-    public static final String IMAGE_PATH = DATA_PATH + "images/ocr.jpg";
+    private String DATA_PATH;
+    private String IMAGE_PATH;
+    private Bitmap bitmap;
 
-    protected void performOCR(Bitmap bitmap) {
+    public OCRActivity(Bitmap bitmap, String dataPath, String imagePath) {
+        this.bitmap = bitmap;
+        this.DATA_PATH = dataPath;
+        this.IMAGE_PATH = imagePath;
+    }
+
+    protected void performOCR() {
 
         try {
             bitmap = rotateImage(bitmap);
